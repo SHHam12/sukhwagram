@@ -23,7 +23,7 @@ class FollowUser(APIView):
         try:
             user_to_follow = models.User.objects.get(id = user_id)
         except models.User.DoesNotExist:
-            return Response(status = status.HTTP_400_NOT_FOUND)
+            return Response(status = status.HTTP_404_NOT_FOUND)
 
         user.following.add(user_to_follow)
 
@@ -41,7 +41,7 @@ class UnFollowUser(APIView):
         try:
             user_to_follow = models.User.objects.get(id = user_id)
         except models.User.DoesNotExist:
-            return Response(status = status.HTTP_400_NOT_FOUND)
+            return Response(status = status.HTTP_404_NOT_FOUND)
 
         user.following.remove(user_to_follow)
 
@@ -94,3 +94,21 @@ class UserFollowing(APIView):
         serializer = serializers.ListUserSerializer(user_following, many = True)
 
         return Response(data = serializer.data, status = status.HTTP_200_OK)
+
+
+class Search(APIView):
+    def get(self, request, format = None):
+
+        username = request.query_params.get('username', None)
+
+        if username is not None:
+
+            users = models.User.objects.filter(username__icontains = username)
+
+            serializer = serializers.ListUserSerializer(users, many = True)
+
+            return Response(data = serializer.data, status = status.HTTP_200_OK)
+
+        else:
+
+            return Response(status = status.HTTP_400_BAD_REQUEST)
