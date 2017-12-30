@@ -69,5 +69,5 @@ class ImageSerializer(serializers.ModelSerializer):
             'comments',
             'like_count',
             'creator',
-            'tags'
+            'created_at',
         )
