@@ -15,6 +15,7 @@ urlpatterns = [
     # User management
     url(r'^users/', include('sukhwagram.users.urls', namespace='users')),
     url(r'^images/', include('sukhwagram.images.urls', namespace='images')),
+    url(r'^notifications/', include('sukhwagram.notifications.urls', namespace='notifications')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here

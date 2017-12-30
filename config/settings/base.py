@@ -57,7 +57,8 @@ LOCAL_APPS = [
     # custom users app
     'sukhwagram.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'sukhwagram.images.apps.ImagesConfig',
+    'sukhwagram.images.apps.ImagesConfig', # Image app
+    'sukhwagram.notifications.apps.NotificationsConfig' # Notifications app
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

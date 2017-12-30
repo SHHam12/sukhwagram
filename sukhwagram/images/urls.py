@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     url(
         regex = r'^$', 
-        view = views.Feed.as_view(),
+        view = views.Image.as_view(),
         name = 'feed'
     ),
     url(

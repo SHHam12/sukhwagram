@@ -2,8 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
+from sukhwagram.notifications import views as notification_views
 
-class Feed(APIView):
+class Image(APIView):
 
     def get(self, request, format = None):
 
@@ -57,6 +58,9 @@ class LikeImage(APIView):
 
             new_like.save()
 
+            notification_views.create_notification(
+                user, found_image.creator, 'like', found_image)
+
             return Response(status = status.HTTP_201_CREATED)
 
 
@@ -101,6 +105,9 @@ class CommentOnImage(APIView):
         if serializer.is_valid():
 
             serializer.save(creator = user, image = found_image)
+
+            notification_views.create_notification(
+                user, found_image.creator, 'comment', found_image, serializer.data['message'])
 
             return Response(data = serializer.data, status = status.HTTP_201_CREATED)
 
