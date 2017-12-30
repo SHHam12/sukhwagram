@@ -22,6 +22,12 @@ class Image(APIView):
 
                 image_list.append(image)
 
+        my_images = user.images.all()[:2]
+
+        for image in my_images:
+
+            image_list.append(image)
+
         sorted_list = sorted(
             image_list, key = lambda image: image.created_at, reverse = True)
 
@@ -164,4 +170,4 @@ class ModerateComments(APIView):
         except models.Comment.DoesNotExist:
             return Response(status = status.HTTP_404_NOT_FOUND)
 
-        return Response(status = status.HTTP_204_NO_CONTENT)
+        return Response(status = status.HTTP_204_NO_CONTENT )
