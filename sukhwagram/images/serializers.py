@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from taggit_serializer.serializers import (TagListSerializerField,
+                                            TaggitSerializer)
 from . import models
 from sukhwagram.users import models as user_models
 
@@ -12,7 +14,7 @@ class SmallImageSerializer(serializers.ModelSerializer):
             'file',
         )
 
-class CountImageSerializer(serializers.ModelSerializer):
+class CountImageSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = models.Image
@@ -47,10 +49,11 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     comments = CommentSerializer(many = True)
     creator = FeedUserSerializer()
+    tags = TagListSerializerField()
 
     class Meta:
         model = models.Image
@@ -63,6 +66,7 @@ class ImageSerializer(serializers.ModelSerializer):
             'like_count',
             'creator',
             'created_at',
+            'tags'
         )
 
 
