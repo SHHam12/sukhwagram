@@ -1,9 +1,12 @@
 import { createStore, combineReducers } from "redux";
-import users from './modules/users'
+import thunk from "redux-thunk";
+import users from "redux/modules/users";
+
+const middlewares = [thunk];
 
 const reducer = combineReducers({
     users
-})
+});
 
 let store = initialState => createStore(reducer);
 
