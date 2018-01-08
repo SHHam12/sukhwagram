@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./styles.scss";
-import { LoginForm, SignupForm } from "components/AuthForms";
+import LoginForm from "components/LoginForm";
+import SignupForm from "components/SignupForm";
   		  
 const Auth = (props, context) => (
   <main className={styles.auth}>
@@ -15,7 +16,7 @@ const Auth = (props, context) => (
       </div>
       <div className={styles.whiteBox}>
         {props.action === "signup" && (
-          <p>
+          <p className={styles.text}>
             Have an account?{" "}
             <span className={styles.changeLink} onClick={props.changeAction}>
               Log in
@@ -23,7 +24,7 @@ const Auth = (props, context) => (
           </p>
         )}
         {props.action === "login" && (
-          <p>
+          <p className={styles.text}>
             Don't have an account?{" "}
             <span className={styles.changeLink} onClick={props.changeAction}>
               Sign up
