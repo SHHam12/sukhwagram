@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Ionicon from "react-ionicons";
 import FacebookLogin from "react-facebook-login";
 import formStyles from "shared/formStyles.scss";
 
@@ -32,7 +31,7 @@ const LoginForm = (props, context) => (
     <span className={formStyles.divider}>{context.t("or")}</span>
     <FacebookLogin
       appId="138999863433141"
-      autoLoad={true}
+      autoLoad={false}
       fields="name,email,picture"
       callback={props.handleFacebookLogin}
       cssClass={formStyles.facebookLink}
