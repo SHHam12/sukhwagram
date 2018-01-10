@@ -30,6 +30,9 @@ class Container extends Component {
   _handleSubmit = event => {
     event.preventDefault();
   };
+  _handleFacebookLogin = response => {
+    console.log(response);
+  };
 }
 
 export default Container;
