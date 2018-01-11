@@ -5,7 +5,11 @@ import formStyles from "shared/formStyles.scss";
 
 const LoginForm = (props, context) => (
   <div className={formStyles.formComponent}>
-    <form className={formStyles.form} onSubmit={props.handleSubmit}>
+    <form
+      className={formStyles.form}
+      onSubmit={props.handleSubmit}
+      method="post"
+    >
       <input
         type="text"
         placeholder={context.t("Username")}
@@ -36,6 +40,7 @@ const LoginForm = (props, context) => (
       callback={props.handleFacebookLogin}
       cssClass={formStyles.facebookLink}
       icon="fa-facebook-official"
+      textButton={context.t("Log in with Facebook")}
     />
     <span className={formStyles.forgotLink}>
       {context.t("Forgot password?")}
