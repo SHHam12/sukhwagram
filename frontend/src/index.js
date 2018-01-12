@@ -10,12 +10,12 @@ import { translations } from "translations";
 // import "ReactotronConfig";
 
 ReactDOM.render(
-    <Provider store = {store}>
-        <ConnectedRouter history = {history}>
-        <I18n translations = {translations} initialLang="en" fallbackLang="en">
+  <Provider store={store}>
+    <I18n translations={translations} initialLang="en" fallbackLang="en">
+      <ConnectedRouter history={history}>
         <App />
-        </I18n>
-        </ConnectedRouter>
-    </Provider>,
-    document.getElementById("root")
+      </ConnectedRouter>
+    </I18n>
+  </Provider>,
+  document.getElementById("root")
 );
