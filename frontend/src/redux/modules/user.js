@@ -4,7 +4,7 @@
 
 const SAVE_TOKEN = "SAVE_TOKEN";
 const LOGOUT = "LOGOUT";
-const SET_USER_LIST = "SET_USER_LIST"; 
+const SET_USER_LIST = "SET_USER_LIST";
 const FOLLOW_USER = "FOLLOW_USER";
 const UNFOLLOW_USER = "UNFOLLOW_USER";
 
@@ -41,7 +41,7 @@ function setUnfollowUser(userId) {
   return {
     type: UNFOLLOW_USER,
     userId
-  }; 
+  };
 }
 
 // API actions
@@ -130,21 +130,47 @@ function getPhotoLikes(photoId) {
       })
       .then(json => {
         dispatch(setUserList(json));
-    });
+      });
   };
 }
 
 function followUser(userId) {
   return (dispatch, getState) => {
-    const { user: { token } } = getState();
     dispatch(setFollowUser(userId));
+    const { user: { token } } = getState();
+    fetch(`/users/${userId}/follow/`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(logout());
+      } else if (!response.ok) {
+        dispatch(setUnfollowUser(userId));
+      }
+    });
   };
-}		
+}
 
 function unfollowUser(userId) {
   return (dispatch, getState) => {
-      const { user: { token } } = getState();
     dispatch(setUnfollowUser(userId));
+    const { user: { token } } = getState();
+    fetch(`/users/${userId}/unfollow/`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(logout());
+      } else if (!response.ok) {
+        dispatch(setFollowUser(userId));
+      }
+    });
   };
 }
 
@@ -152,7 +178,7 @@ function unfollowUser(userId) {
 
 const initialState = {
   isLoggedIn: localStorage.getItem("jwt") ? true : false,
-  token: localStorage.getItem('jwt')
+  token: localStorage.getItem("jwt")
 };
 
 // reducer
@@ -208,7 +234,7 @@ function applyFollowUser(state, action) {
     if (user.id === userId) {
       return { ...user, following: true };
     }
-    return user
+    return user;
   });
   return { ...state, userList: updatedUserList };
 }
@@ -220,7 +246,7 @@ function applyUnfollowUser(state, action) {
     if (user.id === userId) {
       return { ...user, following: false };
     }
-    return user
+    return user;
   });
   return { ...state, userList: updatedUserList };
 }
