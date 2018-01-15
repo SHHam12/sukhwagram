@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
-from sukhwagram.users import models as user_model
+from sukhwagram.users import models as user_models
 from sukhwagram.users import serializers as user_serializers
 from sukhwagram.notifications import views as notification_views
 
@@ -63,7 +63,8 @@ class LikeImage(APIView):
 
         users = user_models.User.objects.filter(id__in = like_creators_ids)
 
-        serializer = user_serializers.ListUserSerializer(users, many = True)
+        serializer = user_serializers.ListUserSerializer(
+            users, many = True, context = {'request': request})
 
         return Response(data = serializer.data, status = status.HTTP_200_OK)
 
