@@ -335,3 +335,8 @@ SOCIALACCOUNT_PROVIDERS = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'sukhwagram.users.serializers.SignUpSerializer'
 }
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'sukhwagram.users.serializers.UserProfileSerializer'
+}
+

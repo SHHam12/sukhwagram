@@ -33,8 +33,15 @@ class FeedUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = user_models.User
         fields = (
+            'profile_image',
             'username',
-            'profile_image'
+            'profile_image',
+            'name',
+            'bio',
+            'website',
+            'post_count',
+            'followers_count',
+            'following_count',
         )
 
 
@@ -77,7 +84,8 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
             'creator',
             'tags',
             'natural_time',
-            'is_liked'
+            'is_liked',
+            'is_vertical'
         )
 
     def get_is_liked(self, obj):
