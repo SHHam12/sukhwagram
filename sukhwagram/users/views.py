@@ -70,9 +70,11 @@ class UserProfile(APIView):
         found_user = self.get_user(username)
 
         if found_user is None:
+
             return Response(status = status.HTTP_404_NOT_FOUND)
 
-        serializer = serializers.UserProfileSerializer(found_user, context={'request': request})
+        serializer = serializers.UserProfileSerializer(
+            found_user, context={'request': request})
 
         return Response(data = serializer.data, status = status.HTTP_200_OK)
 
@@ -83,12 +85,15 @@ class UserProfile(APIView):
         found_user = self.get_user(username)
 
         if found_user is None:
+
             return Response(status = status.HTTP_404_NOT_FOUND)
 
         elif found_user.username != user.username:
+
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
         else:
+
             serializer = serializers.UserProfileSerializer(
                 found_user, data = request.data, partial = True)
 
@@ -101,7 +106,6 @@ class UserProfile(APIView):
             else:
 
                 return Response(data = serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
 
 
 
