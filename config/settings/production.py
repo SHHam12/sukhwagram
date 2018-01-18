@@ -47,7 +47,7 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['sukhwagram.com', ])
+ALLOWED_HOSTS = ["*"]
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += ['gunicorn', ]
@@ -82,8 +82,8 @@ AWS_HEADERS = {
 
 #  See:http://stackoverflow.com/questions/10390244/
 from storages.backends.s3boto3 import S3Boto3Storage
-StaticRootS3BotoStorage = lambda: S3Boto3Storage(location='static')  # noqa
-MediaRootS3BotoStorage = lambda: S3Boto3Storage(location='media', file_overwrite=False)  # noqa
+def StaticRootS3BotoStorage(): return S3Boto3Storage(location='static')  # noqa
+def MediaRootS3BotoStorage(): return S3Boto3Storage(location='media')  # noqa
 DEFAULT_FILE_STORAGE = 'config.settings.production.MediaRootS3BotoStorage'
 
 MEDIA_URL = 'https://s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
