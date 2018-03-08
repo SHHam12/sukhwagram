@@ -109,6 +109,8 @@ class LikeSerializer(serializers.ModelSerializer):
 
 
 class InputImageSerializer(serializers.ModelSerializer):
+
+    tags = TagListSerializerField()
     
     class Meta:
         model = models.Image
@@ -116,4 +118,5 @@ class InputImageSerializer(serializers.ModelSerializer):
             'file',
             'location',
             'caption',
+            'tags'
         )
