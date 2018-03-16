@@ -1,9 +1,104 @@
-.profile {
-    min-width: 500px;
+.loading {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: minmax(100px, auto);
+    min-width: 500px;
+    width: 100%;
+    max-width: $max-page-width;
+    margin: 0 auto;
+    box-sizing: content-box;
+    .avatar {
+        display: flex;
+        justify-self: center;
+        width: 152px;
+        height: 152px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: solid 1px #dbdbdb;
+    }
+    .card {
+        grid-column: 2/4;
+        flex-direction: column;
+        .username {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            padding-top: 10px;
+            padding-bottom: 20px;
+        }
+        .countingfolder {
+            display: flex;
+            flex-direction: row;
+            font-size: $big-font-size;
+            .counting {
+                margin-right: 50px;
+                .number {
+                    font-weight: 600;
+                }
+            }
+        }
+        .text {
+            padding-top: 20px;
+            flex-direction: column;
+            font-size: $big-font-size;
+            .name {
+                font-weight: 600;
+                padding-bottom: 7px;
+            }
+            .bio {
+                padding-bottom: 7px;
+            }
+            .website {
+                padding-bottom: 7px;
+            }
+        }
+    }
+}
+        
+.images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: minmax(100px, auto);
+    min-width: 300px;
     width: 100%;
     max-width: $max-page-width;
     margin: 0 auto;
     align-items: center;
+    padding: 60px 0 0;
+    .imagefolder {
+        position: relative;
+        .image {
+            display: block;
+            width: 300px;
+            max-width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .imagecount {
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            visibility: hidden;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+        }
+        &:hover {
+            .image {
+                opacity: 0.7;
+            }
+            .imagecount {
+                visibility: visible;
+            }
+        }
+    }
 }

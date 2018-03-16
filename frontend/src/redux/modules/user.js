@@ -269,7 +269,8 @@ function getUserProfile(username) {
     fetch(`/users/${username}/`, {
       method: "GET",
       headers: {
-        Authorization: `JWT ${token}`
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
       }
     })
       .then(response => {
@@ -279,7 +280,6 @@ function getUserProfile(username) {
         return response.json();
       })
       .then(json => {
-        console.log(json);
         dispatch(setUserProfile(json));
       });
   };

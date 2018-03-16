@@ -27,10 +27,12 @@
     .bigAvatar {
       width: 55px;
       border-radius: 50%;
+      object-fit: cover;
     }
     .avatar {
       width: 30px;
       border-radius: 50%;
+      object-fit: cover;
     }
     .button {
       @include blueButton();

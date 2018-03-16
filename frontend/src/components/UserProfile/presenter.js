@@ -1,29 +1,89 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Loading from "components/Loading";
+import Ionicon from "react-ionicons";
 import styles from "./styles.scss";
 
 const UserProfile = props => {
   if (props.loading) {
     return <LoadingUserProfile />;
-  } else {
+  } else if (props.userProfile) {
     return <RenderUserProfile {...props} />;
   }
 };
 
 const LoadingUserProfile = props => (
-  <div className={styles.profile}>
+  <div className={styles.loading}>
     <Loading />
   </div>
 );
 
-const RenderUserProfile = props => (
-  <div className={styles.profile}>
-    <div>profile</div>
+const RenderUserProfile = (props, context) => (
+  <div>
+    <div className={styles.profile}>
+      <img
+        src={props.userProfile.profile_image || require("images/noPhoto.jpg")}
+        alt={props.userProfile.username}
+        className={styles.avatar}
+      />
+      <div className={styles.card}>
+        <div className={styles.username}>
+          {props.userProfile.username}
+          {props.userProfile.is_self}
+          {props.userProfile.following}
+        </div>
+        <ul className={styles.countingfolder}>
+          <li className={styles.counting}>
+            <span className={styles.number}>
+              {props.userProfile.post_count}{" "}
+            </span>
+            <span>{context.t("posts")}</span>
+          </li>
+          <li className={styles.counting}>
+            <span className={styles.number}>
+              {props.userProfile.followers_count}{" "}
+            </span>
+            <span>{context.t("followers")}</span>
+          </li>
+          <li className={styles.counting}>
+            <span className={styles.number}>
+              {props.userProfile.following_count}{" "}
+            </span>
+            <span>{context.t("following")}</span>
+          </li>
+        </ul>
+        <div className={styles.text}>
+          <p className={styles.name}>{props.userProfile.name}</p>
+          <p className={styles.website}>{props.userProfile.website}</p>
+          <p className={styles.bio}>{props.userProfile.bio}</p>
+        </div>
+      </div>
+    </div>
+    <div className={styles.images}>
+      {props.userProfile.images.map(image => (
+        <RenderUserImage image={image} key={image.id} />
+      ))}
+    </div>
   </div>
 );
 
-UserProfile.contextTypes = {
+const RenderUserImage = props => (
+  <div className={styles.imagefolder}>
+    <img src={props.image.file} alt={props.image.id} className={styles.image} />
+    <ul className={styles.imagecount}>
+      <li>
+        <Ionicon icon="ios-heart" fontSize="28px" color="white" />{" "}
+        {props.image.like_count}
+      </li>
+      <li>
+        <Ionicon icon="ios-text" fontSize="28px" color="white" />{" "}
+        {props.image.comment_count}
+      </li>
+    </ul>
+  </div>
+);
+
+RenderUserProfile.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
