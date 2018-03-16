@@ -5,7 +5,11 @@ import { actionCreators as notificationActions } from "redux/modules/notificatio
 
 const mapStateToProps = (state, ownProps) => {
   const { user : { username } } = state;
-  return { username };
+  const { notifications: { notificationList } } = state;
+  return { 
+    username,
+    notificationList
+  };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

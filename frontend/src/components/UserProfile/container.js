@@ -4,6 +4,7 @@ import UserProfile from "./presenter";
 
 class Container extends Component {
   state = {
+    seeingUsers: false,
     loading: true
   };
 
@@ -12,14 +13,45 @@ class Container extends Component {
   };
 
   render() {
-    const { userProfile } = this.props;
-    return <UserProfile {...this.state} userProfile={userProfile} />;
+    return (
+      <UserProfile
+        {...this.state}
+        {...this.props}
+        openUsers={this._openUsers}
+        openUserFollowers={this._openUserFollowers}
+        openUserFollowing={this._openUserFollowing}
+        closeUsers={this._closeUsers}
+      />
+    );
   }
+
+  _openUserFollowers = () => {
+    const { getUserFollowers } = this.props;
+    console.log("containerFollowers");
+    this.setState({
+      seeingUsers: true
+    });
+    getUserFollowers();
+  };
+
+  _openUserFollowing = () => {
+    const { getUserFollowing } = this.props;
+    console.log("containerFollowing");
+    this.setState({
+      seeingUsers: true
+    });
+    getUserFollowing();
+  };
+
+  _closeUsers = () => {
+    this.setState({
+      seeingUsers: false
+    });
+  };
 
   componentDidMount() {
     const { getUserProfile } = this.props;
     if (!this.props.userProfile) {
-      console.log(this.props);
       getUserProfile();
     } else {
       this.setState({
@@ -29,8 +61,6 @@ class Container extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("thisProps", this.props.match.url);
-    console.log("nextProps", nextProps.match.url);
     if (nextProps.userProfile) {
       this.setState({
         loading: false
