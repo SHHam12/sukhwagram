@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import Loading from "components/Loading";
 
+
 const Notification = (props, context) => (
   <div className={styles.container} onClick={props.closeNotifications}>
     <div className={styles.box}>

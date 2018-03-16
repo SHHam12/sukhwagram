@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
+import { Link } from "react-router-dom";
 
 const PhotoComments = props => (
   <div className={styles.comments}>
@@ -19,7 +20,12 @@ const PhotoComments = props => (
 
 const Comment = props => (
   <li className={styles.comment}>
-    <span className={styles.username}>{props.username}</span>{" "}
+    <Link
+      to={{ pathname: `/${props.username}` }}
+      style={{ textDecoration: "none", color: "black" }}
+    >
+      <span className={styles.username}>{props.username}</span>{" "}
+    </Link>
     <span className={styles.message}>{props.comment}</span>
   </li>
 );
