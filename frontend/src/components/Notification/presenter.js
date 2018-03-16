@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import Loading from "components/Loading";
 
-const Notification = props => (
+const Notification = (props, context) => (
   <div className={styles.container} onClick={props.closeNotifications}>
     <div className={styles.box}>
       <span className={styles.content}>
@@ -18,9 +18,8 @@ const Notification = props => (
 );
 
 const LoadingNotification = props => (
-  <div className={styles.notification}>
+  <div className={styles.loading}>
     <Loading />
-    spiner
   </div>
 );
 
@@ -28,34 +27,99 @@ const RenderNotification = (props, context) =>
   props.potato.map(notification => (
     <ListNotification
       id={notification.id}
-      creatorname={notification.creator.username}
+      username={notification.creator.username}
+      profile={notification.creator.profile_image}
       notification_type={notification.notification_type}
       comment={notification.comment}
       image={notification.image}
       key={notification.id}
+      following={notification.creator.following}
+      handleClick={props.handleClick}
     />
   ));
 
 const ListNotification = (props, context) => (
-  <div className={styles.notification}>
-    <h1>
-      {props.creatorname}
-      {props.notification_type}
-      {props.comment}
-    </h1>
+  <div className={styles.list}>
+    <img
+      src={props.profile || require("images/noPhoto.jpg")}
+      alt={props.username}
+      className={styles.avatar}
+    />
+    {(() => {
+      switch (props.notification_type) {
+        case "comment":
+          return (
+            <div className={styles.row}>
+              <span className={styles.username}>{props.username}</span>
+              <span className={styles.message}>{context.t('left comment on your photo.:')}</span>
+              <span className={styles.comment}>{props.comment}</span>
+            </div>
+          );
+        case "like":
+          return (
+            <div className={styles.row}>
+              <span className={styles.username}>{props.username}</span>
+              <span className={styles.message}>
+                {context.t('liked your photo.')}
+              </span>
+            </div>
+          );
+        case "follow":
+          return (
+            <div className={styles.row}>
+              <span className={styles.username}>{props.username}</span>
+              <span className={styles.message}>
+                {context.t('started following you.')}
+              </span>
+            </div>
+          );
+        default:
+          return "err";
+      }
+    })()}
+    {(() => {
+      switch (props.notification_type) {
+        case "like":
+        case "comment":
+          return (
+            <div className={styles.image}></div>
+          );
+        case "follow":
+          return (
+            <button className={styles.button} onClick={props.handleClick}>
+              {props.following ? context.t("Unfollow") : context.t('Follow')}
+            </button>
+          );
+        default:
+          return "err"; 
+      }
+    })()}
   </div>
 );
 
 Notification.propTypes = {
-  creatorname: PropTypes.string.isRequired,
-  notification_type: PropTypes.string.isRequired,
-  comment: PropTypes.string,
-  image: PropTypes.string,
-  loading: PropTypes.bool.isRequired
+  onClick: PropTypes.func,
+  potato: PropTypes.array
 };
 
 RenderNotification.propTypes = {
-  list: PropTypes.array
+  creator: PropTypes.shape({
+    profile: PropTypes.string,
+    username: PropTypes.string.isRequired
+  }),
+  notification_type: PropTypes.string,
+  comment: PropTypes.string,
+  image: PropTypes.shape({
+    file: PropTypes.string
+  }),
+  key: PropTypes.number,
+  handleClick: PropTypes.func
+};
+
+ListNotification.propTypes = {};
+
+ListNotification.contextTypes = {
+  t: PropTypes.func.isRequired
 };
 
 export default Notification;

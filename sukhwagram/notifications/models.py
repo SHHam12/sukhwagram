@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from sukhwagram.users import models as user_models
 from sukhwagram.images import models as image_models
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 class Notification(image_models.TimeStampedModel):
 
@@ -16,6 +17,10 @@ class Notification(image_models.TimeStampedModel):
     notification_type = models.CharField(max_length = 20, choices = TYPE_CHOICES)
     image = models.ForeignKey(image_models.Image, null = True, blank = True)
     comment = models.TextField(null = True, blank = True)
+
+    @property
+    def natural_time(self):
+        return naturaltime(self.created_at)
 
     class Meta:
         ordering = ['-created_at']

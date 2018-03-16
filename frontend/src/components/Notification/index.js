@@ -1,13 +1,27 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as notificationActions } from "redux/modules/notifications";
+import { actionCreators as userActions } from "redux/modules/user";
+
+const mapStateToProps = (state, ownProps) => {
+  const { notifications: { notification } } = state;
+  const { user: { userList } } = state;
+  return {
+    notification,
+    userList
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  const { user } = ownProps;
   return {
-    getNotification: () => {
-      dispatch(notificationActions.getNotification());
+    handleClick: () => {
+      if (user.following) {
+        dispatch(userActions.unfollowUser(user.id));
+      } else {
+        dispatch(userActions.followUser(user.id));
+      }
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);
