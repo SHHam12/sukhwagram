@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 class Container extends Component {
   state = {
-    term: ""
+    term: "",
+    seeingNotifications: false
   };
   static propTypes = {
     goToSearch: PropTypes.func.isRequired
@@ -12,9 +13,13 @@ class Container extends Component {
   render() {
     return (
       <Navigation 
+        {...this.props}
+        {...this.state}
         onSubmit={this._onSubmit} 
         onInputChange={this._onInputChange} 
-        value={this.state.term} 
+        value={this.state.term}
+        openNotifications={this._openNotifications} 
+        closeNotifications={this._closeNotifications}
       />
     );
   }
@@ -31,6 +36,18 @@ class Container extends Component {
     goToSearch(term);
     this.setState({
       term: ""
+    });
+  };
+  _openNotifications = () => {
+    const { getNotification } = this.props;
+    this.setState({
+      seeingNotifications: true
+    });
+    getNotification();
+  };
+  _closeNotifications = () => {
+    this.setState({
+      seeingNotifications: false
     });
   };
 }
