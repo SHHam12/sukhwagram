@@ -44,7 +44,6 @@ const Navigation = (props, context) => (
         </div>
         {props.seeingNotifications && (
           <Notification
-            title={context.t("Notifications")}
             closeNotifications={props.closeNotifications}
             notification={props.notification}
           />
