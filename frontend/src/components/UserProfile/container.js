@@ -17,7 +17,6 @@ class Container extends Component {
       <UserProfile
         {...this.state}
         {...this.props}
-        openUsers={this._openUsers}
         openUserFollowers={this._openUserFollowers}
         openUserFollowing={this._openUserFollowing}
         closeUsers={this._closeUsers}

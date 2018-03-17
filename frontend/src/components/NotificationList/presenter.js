@@ -42,7 +42,7 @@ const RenderNotification = props =>
 
 Notification.propTypes = {
   onClick: PropTypes.func,
-  notification: PropTypes.array
+  notificationList: PropTypes.array
 };
 
 RenderNotification.propTypes = {

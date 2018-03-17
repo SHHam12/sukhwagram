@@ -6,7 +6,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         isLoggedIn: user.isLoggedIn,
         pathname: location.pathname,
-        username: user.name
+        username: user.username
     };
 };
 

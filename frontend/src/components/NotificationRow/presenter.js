@@ -88,7 +88,7 @@ const NotificationRow = (props, context) => (
         case "follow":
           return (
             <button className={styles.button} onClick={props.handleClick}>
-              {props.creator.following
+              {props.creator.is_following
                 ? context.t("Unfollow")
                 : context.t("Follow")}
             </button>
@@ -100,7 +100,21 @@ const NotificationRow = (props, context) => (
   </div>
 );
 
-NotificationRow.propTypes = {};
+NotificationRow.propTypes = {
+  creator: PropTypes.shape({
+    username: PropTypes.string.isRequiored,
+    profile_image: PropTypes.string,
+    is_following: PropTypes.bool.isRequired
+  }).isRequired,
+  notification_type: PropTypes.string.isRequired,
+  comment: PropTypes.string,
+  natural_time: PropTypes.string.isRequired,
+  image: PropTypes.shape({
+    file: PropTypes.string,
+    caption: PropTypes.string
+  }),
+  handleClick: PropTypes.func.isRequired
+};
 
 NotificationRow.contextTypes = {
   t: PropTypes.func.isRequired

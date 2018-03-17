@@ -45,4 +45,9 @@ PhotoComments.propTypes = {
   ).isRequired
 };
 
+Comment.propTypes = {
+  username: PropTypes.string.isRequired,
+  comment: PropTypes.string.isRequired
+}
+
 export default PhotoComments;

@@ -34,17 +34,17 @@ function setUserList(userList) {
   };
 }
 
-function setFollowUser(userId) {
+function setFollowUser(username) {
   return {
     type: FOLLOW_USER,
-    userId
+    username
   };
 }
 
-function setUnfollowUser(userId) {
+function setUnfollowUser(username) {
   return {
     type: UNFOLLOW_USER,
-    userId
+    username
   };
 }
 
@@ -159,11 +159,11 @@ function getPhotoLikes(photoId) {
   };
 }
 
-function followUser(userId) {
+function followUser(username) {
   return (dispatch, getState) => {
-    dispatch(setFollowUser(userId));
+    dispatch(setFollowUser(username));
     const { user: { token } } = getState();
-    fetch(`/users/${userId}/follow/`, {
+    fetch(`/users/${username}/follow/`, {
       method: "POST",
       headers: {
         Authorization: `JWT ${token}`,
@@ -173,17 +173,17 @@ function followUser(userId) {
       if (response.status === 401) {
         dispatch(logout());
       } else if (!response.ok) {
-        dispatch(setUnfollowUser(userId));
+        dispatch(setUnfollowUser(username));
       }
     });
   };
 }
 
-function unfollowUser(userId) {
+function unfollowUser(username) {
   return (dispatch, getState) => {
-    dispatch(setUnfollowUser(userId));
+    dispatch(setUnfollowUser(username));
     const { user: { token } } = getState();
-    fetch(`/users/${userId}/unfollow/`, {
+    fetch(`/users/${username}/unfollow/`, {
       method: "POST",
       headers: {
         Authorization: `JWT ${token}`,
@@ -193,7 +193,7 @@ function unfollowUser(userId) {
       if (response.status === 401) {
         dispatch(logout());
       } else if (!response.ok) {
-        dispatch(setFollowUser(userId));
+        dispatch(setFollowUser(username));
       }
     });
   };
@@ -285,6 +285,50 @@ function getUserProfile(username) {
   };
 }
 
+function getUserFollowers(username) {
+  return (dispatch, getState) => {
+    const { user: { token } } = getState();
+    fetch(`/users/${username}/followers/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setUserList(json));
+      });
+  };
+}
+
+function getUserFollowing(username) {
+  return (dispatch, getState) => {
+    const { user: { token } } = getState();
+    fetch(`/users/${username}/following/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setUserList(json));
+      });
+  };
+}
+
 // initial state
 
 const initialState = {
@@ -349,11 +393,11 @@ function applySetUserList(state, action) {
 }
 
 function applyFollowUser(state, action) {
-  const { userId } = action;
+  const { username } = action;
   const { userList } = state;
   const updatedUserList = userList.map(user => {
-    if (user.id === userId) {
-      return { ...user, following: true };
+    if (user.username === username) {
+      return { ...user, is_following: true };
     }
     return user;
   });
@@ -361,11 +405,11 @@ function applyFollowUser(state, action) {
 }
 
 function applyUnfollowUser(state, action) {
-  const { userId } = action;
+  const { username } = action;
   const { userList } = state;
   const updatedUserList = userList.map(user => {
-    if (user.id === userId) {
-      return { ...user, following: false };
+    if (user.username === username) {
+      return { ...user, is_following: false };
     }
     return user;
   });
@@ -408,7 +452,9 @@ const actionCreators = {
   unfollowUser,
   getExplore,
   searchByTerm,
-  getUserProfile
+  getUserProfile,
+  getUserFollowers,
+  getUserFollowing
 };
 
 export { actionCreators };
