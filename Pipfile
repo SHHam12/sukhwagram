@@ -39,6 +39,7 @@ django-cors-headers = "*"
 django-imagekit = "*"
 awsebcli = "*"
 "0" = "*"
+"iso8601" = "*"
 
 
 [dev-packages]
