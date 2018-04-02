@@ -49,7 +49,7 @@ const Navigation = (props, context) => (
           />
         )}
         <div className={styles.navIcon}>
-          <Link to={{ pathname: `/${props.username}` }} target="_self">
+          <Link to={{ pathname: `/${props.username}` }}>
             <Ionicon icon="ios-person-outline" fontSize="32px" color="black" />
           </Link>
         </div>

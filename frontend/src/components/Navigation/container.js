@@ -20,6 +20,7 @@ class Container extends Component {
         value={this.state.term}
         openNotifications={this._openNotifications} 
         closeNotifications={this._closeNotifications}
+        username={this.props.username}
       />
     );
   }
