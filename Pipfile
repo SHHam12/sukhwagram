@@ -40,6 +40,7 @@ django-imagekit = "*"
 awsebcli = "*"
 "0" = "*"
 "iso8601" = "*"
+requests = "*"
 
 
 [dev-packages]
